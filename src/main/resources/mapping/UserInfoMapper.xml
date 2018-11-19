@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.UserInfo">
+            <id column="userId" property="userId" jdbcType="INTEGER" />
+            <result column="userNo" property="userNo" jdbcType="VARCHAR" />
+            <result column="userType" property="userType" jdbcType="CHAR" />
+            <result column="userName" property="userName" jdbcType="VARCHAR" />
+            <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_Select">
+            userId,
+            userNo,
+            userType,
+            userName,
+            createTime
+    </sql>
+
+    <sql id="Base_Column_Where">
+    <where>
+        <if test="userId != null ">
+            AND userId = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="userNo != null ">
+            AND userNo = #{userNo,jdbcType=VARCHAR}
+        </if>
+        <if test="userType != null ">
+            AND userType = #{userType,jdbcType=CHAR}
+        </if>
+        <if test="userName != null ">
+            AND userName = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null ">
+            AND createTime = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+    </where>
+
+    </sql>
+    <select id="select" resultMap="BaseResultMap" parameterType="com.example.demo.model.UserInfo">
+        select
+        <include refid="Base_Column_Select" />
+        from user_info
+        <include refid="Base_Column_Where"></include> limit 1
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_Select" />
+        from user_info
+        <include refid="Base_Column_Where"></include>
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.model.UserInfo">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null ">
+                userId,
+            </if>
+            <if test="userNo != null ">
+                userNo,
+            </if>
+            <if test="userType != null ">
+                userType,
+            </if>
+            <if test="userName != null ">
+                userName,
+            </if>
+            <if test="createTime != null ">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null ">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userNo != null ">
+                #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null ">
+                #{userType,jdbcType=CHAR},
+            </if>
+            <if test="userName != null ">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null ">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.model.UserInfo" >
+        update user_info
+        <set>
+            <if test="userId != null ">
+                userId = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userNo != null ">
+                userNo = #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null ">
+                userType = #{userType,jdbcType=CHAR},
+            </if>
+            <if test="userName != null ">
+                userName = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null ">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where
+            userId = #{userId,jdbcType=INTEGER}
+            
+            
+            
+            
+    </update>
+    <delete id="delete" parameterType="com.example.demo.model.UserInfo">
+        delete from user_info
+        <include refid="Base_Column_Where"></include>
+    </delete>
+</mapper>
