@@ -21,7 +21,7 @@ public class Tool {
     public static final String TABLE_NAME = "user_info";
 
 
-    public void model(List<Column> columnList) {
+    public static void model(List<Column> columnList) {
         // step1 创建freeMarker配置实例
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         Writer out = null;
@@ -56,7 +56,7 @@ public class Tool {
         }
     }
 
-    public void mapper() {
+    public static void mapper() {
         // step1 创建freeMarker配置实例
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         Writer out = null;
@@ -91,7 +91,7 @@ public class Tool {
         }
     }
 
-    public void mapping(List<Column> columnList) {
+    public static void mapping(List<Column> columnList) {
         // step1 创建freeMarker配置实例
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         Writer out = null;
