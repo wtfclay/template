@@ -2,6 +2,8 @@ package ${classPathModel};
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ${className} {
 <#if columnList??>

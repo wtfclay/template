@@ -18,9 +18,11 @@
     <sql id="Base_Column_Where">
         <where>
         <#list columnList as column>
-        <if test="${column.javaColumn} != null ">
-            AND ${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn},jdbcType=${column.typeName}}
-        </if>
+        <#if column.pk==false>
+            <if test="${column.javaColumn} != null<#if column.typeName=='TIMESTAMP'> "> <#else> and ${column.javaColumn} !='' "></#if>
+                AND ${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn},jdbcType=${column.typeName}}
+            </if>
+        </#if>
         </#list>
         </where>
     </sql>
@@ -60,16 +62,35 @@
         update ${tableName}
         <set>
         <#list columnList as column>
-            <if test="${column.javaColumn} != null ">
+            <#if column.pk==false>
+            <if test="${column.javaColumn} != null<#if column.typeName=='TIMESTAMP'> "> <#else> and ${column.javaColumn} !='' "></#if>
                 ${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn},jdbcType=${column.typeName}},
             </if>
+            </#if>
         </#list>
         </set>
         where
         <#list columnList as column>
-            <#if column.pk==true>${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn},jdbcType=${column.typeName}}</#if>
-        </#list>
+        <#if column.pk==true>
+        ${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn},jdbcType=${column.typeName}}
+        </#if>
+    </#list>
     </update>
+
+    <update id="updateInfo" parameterType="java.util.Map" >
+        update ${tableName}
+        <set>
+            <#list columnList as column>
+            <#if column.pk==false>
+            <if test="${column.javaColumn}New != null<#if column.typeName=='TIMESTAMP'> "> <#else> and ${column.javaColumn} !='' "></#if>
+                ${column.columnName} = <#noparse>#</#noparse>{${column.javaColumn}New,jdbcType=${column.typeName}},
+            </if>
+            </#if>
+            </#list>
+        </set>
+        <include refid="Base_Column_Where"></include>
+    </update>
+
     <delete id="delete" parameterType="${classPathModel}.${className}">
         delete from ${tableName}
         <include refid="Base_Column_Where"></include>
